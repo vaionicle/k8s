@@ -78,9 +78,10 @@ for i in $(seq ${VM_COUNT}); do
 	VBoxManage modifyvm ${vm_name} --audio none
 
 	# Network Settings
-	VBoxManage modifyvm ${vm_name} \
-		--nic1 natnetwork \
-		--nat-network1 ${VM_NAT_NETWORK}
+	ID="1"
+	VBoxManage modifyvm ${vm_name} --nic${ID} natnetwork	--nictype1 82540EM	--nicpromisc1 allow-all	--nat-network1 ${VM_NAT_NETWORK}
+	ID="2"
+	VBoxManage modifyvm ${vm_name} --nic${ID} bridged		--nictype1 82540EM	--nicpromisc2 allow-all	--bridgeadapter2 eno1
 done
 
 tree ${VM_LOCATION}/${VM_GROUP}
