@@ -4,11 +4,6 @@ VM_GROUP="k8s"
 VM_LOCATION="/opt/VirtualBox"
 VM_NAT_NETWORK="k8s"
 VM_COUNT=4
-ISO_VERSION="22.04.1"
-ISO_FILE="ubuntu-${ISO_VERSION}-live-server-amd64.iso"
-
-[ ! -f "${ISO_FILE}" ] && \
-	wget https://releases.ubuntu.com/${ISO_VERSION}/${ISO_FILE}
 
 [ $(VBoxManage natnetwork list ${VM_NAT_NETWORK} | wc -l) == 3 ] && \
 	VBoxManage natnetwork add --netname ${VM_NAT_NETWORK} --network "10.0.2.0/24" --enable --dhcp on && \
@@ -38,9 +33,9 @@ for i in $(seq ${VM_COUNT}); do
 	# General Settings
 	VBoxManage modifyvm ${vm_name} \
 		--clipboard-mode bidirectional \
-    	--draganddrop bidirectional
+		--draganddrop bidirectional
 
-    DESC=$'username: user\npassword: azerty\nhostname: k8snode'"${i}"
+	DESC=$'username: user\npassword: azerty\nhostname: k8snode'"${i}"
 	VBoxManage modifyvm ${vm_name} --description "$(echo "$DESC")"
 
 	# System Settings
@@ -72,16 +67,15 @@ for i in $(seq ${VM_COUNT}); do
 
 	# SATA
 	VBoxManage storageattach ${vm_name} --storagectl "SATA" --port 0 --device 0 --type hdd --medium ${vm_disk}
-	VBoxManage storageattach ${vm_name} --storagectl "SATA" --port 1 --device 0 --type dvddrive --medium ${ISO_FILE}
 
 	# Audio Settings
 	VBoxManage modifyvm ${vm_name} --audio none
 
 	# Network Settings
 	ID="1"
-	VBoxManage modifyvm ${vm_name} --nic${ID} natnetwork	--nictype1 82540EM	--nicpromisc1 allow-all	--nat-network1 ${VM_NAT_NETWORK}
+	VBoxManage modifyvm ${vm_name} --nic${ID} natnetwork	--nictype${ID} 82540EM	--nicpromisc${ID} allow-all	--nat-network${ID} ${VM_NAT_NETWORK}
 	ID="2"
-	VBoxManage modifyvm ${vm_name} --nic${ID} bridged		--nictype1 82540EM	--nicpromisc2 allow-all	--bridgeadapter2 eno1
+	VBoxManage modifyvm ${vm_name} --nic${ID} bridged		--nictype${ID} 82540EM	--nicpromisc${ID} allow-all	--bridgeadapter${ID} eno1
 done
 
 tree ${VM_LOCATION}/${VM_GROUP}

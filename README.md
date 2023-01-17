@@ -8,6 +8,7 @@ Creating a local k8s cluster to experiment with
   - [Table of Contents](#table-of-contents)
   - [VirtualBox](#virtualbox)
   - [Specs](#specs)
+  - [Ubuntu Autoinstall Config](#ubuntu-autoinstall-config)
   - [Makefile](#makefile)
 
 ## VirtualBox
@@ -25,6 +26,10 @@ Follow the [Download](https://www.virtualbox.org/wiki/Linux_Downloads) section
 - 1 CPU Core
 - 2 Network Cards
 - 16MB RAM for VMSVGA
+
+## Ubuntu Autoinstall Config
+
+- [Ubuntu Autoconfig](https://ubuntu.com/server/docs/install/autoinstall-reference)
 
 ## Makefile
 
