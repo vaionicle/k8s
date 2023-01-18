@@ -92,7 +92,7 @@ for i in $(seq ${VM_COUNT}); do
 		--name="k8s" \
 		--hostpath="$(pwd)" \
 		--automount \
-		--auto-mount-point="/op/k8s"
+		--auto-mount-point="/opt/k8s"
 done
 
 tree ${VM_LOCATION}/${VM_GROUP}
