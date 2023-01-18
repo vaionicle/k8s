@@ -3,3 +3,5 @@
 
 kubectl
 kubectl.sha256
+
+src/config/meta-data
