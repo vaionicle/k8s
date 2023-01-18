@@ -3,14 +3,43 @@ autoinstall:
     version: 1
     locale: en_US
 
-    network:
-        network:
-            version: 2
-            ethernets:
-                enp0s3:
-                dhcp4: yes
-                enp0s8: {}
+    # network:
+    #     network:
+    #         version: 2
+    #         ethernets:
+    #             enp0s3:
+    #             dhcp4: yes
+    #             enp0s8: {}
 
+    # refresh-installer:
+    #     update: yes
+
+    storage:
+        layout:
+            name: lvm
+
+    identity:
+        realname: k8s_node_1
+        hostname: k8snode1
+        username: user
+        password: '$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0'
+
+    ssh:
+        install-server: yes
+        # authorized-keys:
+        # - $key
+        # allow-pw: no
+
+    packages:
+        - net-tools
+        - network-manager
+        - bzip2
+        - tar
+
+    user-data:
+        disable_root: false
+
+    shutdown: reboot
 
     # reporting:
     #     hook:
@@ -19,10 +48,6 @@ autoinstall:
 
     # early-commands:
     #     - ping -c1 10.0.2.1
-
-
-    refresh-installer:
-        update: yes
 
     #         bonds:
     #             bond0:
@@ -44,22 +69,6 @@ autoinstall:
     #             source: "deb http://ppa.launchpad.net/curtin-dev/test-archive/ubuntu $RELEASE main"
     #             keyid: B59D 5F15 97A5 04B7 E230  6DCA 0620 BBCF 0368 3F77
 
-    storage:
-        layout:
-            name: lvm
-
-    identity:
-        realname: k8s_node_1
-        hostname: k8snode1
-        username: user
-        password: '$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0'
-
-    ssh:
-        install-server: yes
-        # authorized-keys:
-        # - $key
-        # allow-pw: no
-
     # snaps:
     #     - name: go
     #       channel: 1.14/stable
@@ -68,17 +77,8 @@ autoinstall:
     # debconf-selections: |
     #     bind9      bind9/run-resolvconf    boolean false
 
-    packages:
-        - net-tools
-        - network-manager
-
-    user-data:
-        disable_root: false
-
     # late-commands:
     #     - sed -ie 's/GRUB_TIMEOUT=.\*/GRUB_TIMEOUT=30/' /target/etc/default/grub
-
-    shutdown: reboot
 
     # error-commands:
     #     - tar c /var/log/installer | nc 192.168.0.1 1000

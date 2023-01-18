@@ -1,2 +1,2 @@
-instance-id: id-4
-local-hostname: k8s-node4
+instance-id: kuberneters-node-1
+local-hostname: k8snode1
