@@ -33,8 +33,16 @@ Follow the [Download](https://www.virtualbox.org/wiki/Linux_Downloads) section
 
 ## Makefile
 
-The bellow command will download **ubuntu server 22.04** and will try to **configure 4 nodes** in VirtualBox
+The bellow command will try to **create VirtualBox instances** and **configure** them.
+
+The default number of Nodes is 4
 
 ```bash
 make cluster
+```
+
+The bellow command will download if doesnt exists **ubuntu server 22.04** and will try to **install** it on specific node.
+
+```bash
+make ubuntu 1..N
 ```
