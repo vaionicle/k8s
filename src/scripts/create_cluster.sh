@@ -15,6 +15,11 @@ for i in $(seq ${VM_COUNT}); do
 	vm_name="k8s_node_${i}"
 	vm_disk="${VM_LOCATION}/${VM_GROUP}/${vm_name}/${vm_name}.vdi"
 
+	if [ $(VBoxManage list runningvms | grep ${vm_name} | wc -l) == "1" ]; then
+		echo "RUNNING ${vm_name}"
+		continue
+	fi
+
 	if [ $(VBoxManage list vms -s | grep ${vm_name} | wc -l) == "0" ]; then
 		echo "CREATING ${vm_name}"
 
@@ -24,6 +29,8 @@ for i in $(seq ${VM_COUNT}); do
 			--ostype Ubuntu_64 \
 			--register \
 			--basefolder "${VM_LOCATION}"
+
+		VBoxManage storagectl ${vm_name} --name "SATA" --add sata --controller IntelAhci
 	else
 		echo "EXISTS ${vm_name}"
 	fi
@@ -61,16 +68,13 @@ for i in $(seq ${VM_COUNT}); do
 	# ##################################
 	# Storage Settings
 	if [ $(VBoxManage list hdds -s | grep "${vm_disk}" | wc -l) == "0" ]; then
-		echo "Disk ${vm_disk} for ${vm_name} | CREATING"
+		echo "Disk ${vm_disk} | CREATING"
 		VBoxManage createhd --filename ${vm_disk} --size 10240 --format VDI
-	else
-		echo "Disk ${vm_disk} for ${vm_name} | EXISTS"
 	fi
 
 
 	# ##################################
 	# SATA
-	VBoxManage storagectl ${vm_name} --name "SATA" --add sata --controller IntelAhci
 	VBoxManage storageattach ${vm_name} --storagectl "SATA" --port 0 --device 0 --type hdd --medium ${vm_disk}
 
 
@@ -88,11 +92,12 @@ for i in $(seq ${VM_COUNT}); do
 
 	# ##################################
 	# Share Folder Settings
-	VBoxManage sharedfolder add ${vm_name} \
-		--name="k8s" \
-		--hostpath="$(pwd)" \
-		--automount \
-		--auto-mount-point="/opt/k8s"
+	[ "$(VBoxManage showvminfo ${vm_name} | grep 'Host path' | wc -l)" == 0 ] && \
+		VBoxManage sharedfolder add ${vm_name} \
+			--name="k8s" \
+			--hostpath="$(pwd)" \
+			--automount \
+			--auto-mount-point="/opt/k8s"
 done
 
 tree ${VM_LOCATION}/${VM_GROUP}
