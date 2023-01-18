@@ -2,4 +2,9 @@ cluster:
 	./src/scripts/create_cluster.sh
 
 ubuntu:
-	./src/scripts/install_ubuntu.sh
+ifdef node
+	./src/scripts/install_ubuntu.sh ${node}
+else
+	@echo "NEED TO SPECIFY NODE NUMBER"
+	@echo "make ubuntu node=1"
+endif
