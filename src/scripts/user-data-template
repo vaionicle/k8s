@@ -1,0 +1,55 @@
+#cloud-config
+autoinstall:
+    version: 1
+    locale: en_US
+
+    storage:
+        layout:
+            name: lvm
+
+    identity:
+        realname: ##REALNAME##
+        hostname: ##HOSTNAME##
+        username: user
+        password: '$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0'
+
+    ssh:
+        install-server: yes
+
+    packages:
+        - net-tools
+        - network-manager
+        - bzip2
+        - tar
+        - git
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - virtualbox-guest-utils
+
+    user-data:
+        disable_root: false
+
+    shutdown: reboot
+
+    late-commands:
+        - echo 'user ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+        - sed -ie 's/GRUB_CMDLINE_LINUX=.\*/GRUB_CMDLINE_LINUX="net.ifnames=0 ipv6.disable=1 biosdevname=0 console=ttyS0,115200n8"/' /target/etc/default/grub
+        - curtin in-target --target /target update-grub2
+        - swapoff -a
+        - sed -ie '/\/swap.img/s/^/#/g' /target/etc/fstab
+        - curl -vo /target/usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        - |
+            cat <<EOF |  tee /target/etc/modules-load.d/k8s.conf
+            br_netfilter
+            EOF
+        - |
+            cat <<EOF | sudo tee /target/etc/sysctl.d/k8s.conf
+            net.bridge.bridge-nf-call-ip6tables = 1
+            net.bridge.bridge-nf-call-iptables = 1
+            EOF
+        - sysctl --system
+        - echo 'deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main' | tee /target/etc/apt/sources.list.d/kubernetes.list
+        - echo 'vboxsf' | tee -a /target/etc/modules
+        - echo 'k8s /opt/k8s vboxsf defaults 0 0' | tee -a /target/etc/fstab
+        - curtin in-target --target /target usermod -G vboxsf -a myusername

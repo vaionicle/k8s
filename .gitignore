@@ -5,3 +5,4 @@ kubectl
 kubectl.sha256
 
 src/configs/meta-data
+src/configs/user-data
