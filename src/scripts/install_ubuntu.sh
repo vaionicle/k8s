@@ -14,13 +14,17 @@ VM_LOCATION="/opt/VirtualBox"
 ISO_VERSION="22.04.1"
 ISO_FILE="ubuntu-${ISO_VERSION}-live-server-amd64.iso"
 
-[ ! -f "${ISO_FILE}" ] && wget https://releases.ubuntu.com/${ISO_VERSION}/${ISO_FILE}
-
 tmpdir=./src/configs
 vm_name="k8s_node_${NODE}"
 
-metadata=$"instance-id: kuberneters-node-${NODE}"$'\nlocal-hostname: k8snode'${NODE}
-echo "$metadata" > ./src/configs/meta-data
+[ ! -f "${ISO_FILE}" ] && wget https://releases.ubuntu.com/${ISO_VERSION}/${ISO_FILE}
+[ -f "./seed_${NODE}.iso" ] && rm -rf "seed_${NODE}.iso"
+[ -f ${tmpdir}/user-data ] && rm -rf ${tmpdir}/user-data
+
+cp ./src/scripts/user-data-template ${tmpdir}/user-data
+
+sed -i "s/##HOSTNAME##/k8snode${NODE}/" ${tmpdir}/user-data
+sed -i "s/##REALNAME##/k8s_node_${NODE}/" ${tmpdir}/user-data
 
 mkisofs -JR -V cidata -o ./seed_${NODE}.iso ${tmpdir}
 
