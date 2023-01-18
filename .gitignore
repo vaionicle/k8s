@@ -1,2 +1,5 @@
 *.iso
 *.img
+
+kubectl
+kubectl.sha256
