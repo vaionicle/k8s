@@ -24,7 +24,7 @@ Follow the [Download](https://www.virtualbox.org/wiki/Linux_Downloads) section
 
 - 10GB HDD
 - 1GB RAM
-- 1 CPU Core
+- 2 CPU Core
 - 2 Network Cards
 - 16MB RAM for VMSVGA
 

@@ -51,7 +51,7 @@ for i in $(seq ${VM_COUNT}); do
 		--pae on \
 		--chipset piix3 \
 		--memory 1024 \
-		--cpus 1 \
+		--cpus 2 \
 		--cpuexecutioncap 100 \
 		--rtcuseutc on
 
