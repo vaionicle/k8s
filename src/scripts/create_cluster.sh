@@ -41,7 +41,7 @@ for i in $(seq ${VM_COUNT}); do
 	# General Settings
 	VBoxManage modifyvm ${vm_name} \
 		--clipboard-mode bidirectional \
-		--draganddrop bidirectional
+		--draganddrop bidirectional\
 
 
 	# ##################################
@@ -50,10 +50,11 @@ for i in $(seq ${VM_COUNT}); do
 		--ioapic on \
 		--pae on \
 		--chipset piix3 \
-		--memory 1024 \
+		--memory 2048 \
 		--cpus 2 \
 		--cpuexecutioncap 100 \
-		--rtcuseutc on
+		--rtcuseutc on \
+		--nested-hw-virt on
 
 	VBoxManage modifyvm ${vm_name} \
 		--boot1 dvd \
