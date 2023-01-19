@@ -10,7 +10,7 @@ autoinstall:
     identity:
         realname: ##REALNAME##
         hostname: ##HOSTNAME##
-        username: user
+        username: ##USERNAME##
         password: '$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0'
 
     ssh:
@@ -52,4 +52,3 @@ autoinstall:
         - echo 'deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-jammy main' | tee /target/etc/apt/sources.list.d/kubernetes.list
         - echo 'vboxsf' | tee -a /target/etc/modules
         - echo 'k8s /opt/k8s vboxsf defaults 0 0' | tee -a /target/etc/fstab
-        - curtin in-target --target /target usermod -G vboxsf -a myusername

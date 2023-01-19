@@ -17,18 +17,29 @@ ISO_FILE="ubuntu-${ISO_VERSION}-live-server-amd64.iso"
 tmpdir=./src/configs
 vm_name="k8s_node_${NODE}"
 
+username="user"
+password="ubuntu"
+
+
 [ ! -f "${ISO_FILE}" ] && wget https://releases.ubuntu.com/${ISO_VERSION}/${ISO_FILE}
 [ -f "./seed_${NODE}.iso" ] && rm -rf "seed_${NODE}.iso"
 [ -f ${tmpdir}/user-data ] && rm -rf ${tmpdir}/user-data
 
 cp ./src/scripts/user-data-template ${tmpdir}/user-data
 
-sed -i "s/##HOSTNAME##/k8snode${NODE}/" ${tmpdir}/user-data
-sed -i "s/##REALNAME##/k8s_node_${NODE}/" ${tmpdir}/user-data
+# GENERATE_PASS="$(openssl passwd -6 -stdin <<< ${password})"
+# echo $GENERATE_PASS
+# sed -i 's/##PWD##/${GENERATE_PASS}/g' ${tmpdir}/user-data
+
+sed -i "s/##HOSTNAME##/k8snode${NODE}/g" ${tmpdir}/user-data
+sed -i "s/##REALNAME##/k8s_node_${NODE}/g" ${tmpdir}/user-data
+sed -i "s/##USERNAME##/${username}/g" ${tmpdir}/user-data
+
+touch  ${tmpdir}/meta-data
 
 mkisofs -JR -V cidata -o ./seed_${NODE}.iso ${tmpdir}
 
-DESC=$'username: user\npassword: ubuntu\nhostname: k8snode'"${NODE}"
+DESC=$'username: user\npassword: '${password}$'\nhostname: k8snode'"${NODE}"
 VBoxManage modifyvm ${vm_name} --description "$(echo "$DESC")"
 
 VBoxManage storageattach ${vm_name} --storagectl "SATA" --port 1 --device 0 --type dvddrive --medium ${ISO_FILE}
