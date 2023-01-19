@@ -12,6 +12,8 @@ VM_COUNT=4
 VBoxManage natnetwork list ${VM_NAT_NETWORK}
 
 for i in $(seq ${VM_COUNT}); do
+	echo "---"
+
 	vm_name="k8s_node_${i}"
 	vm_disk="${VM_LOCATION}/${VM_GROUP}/${vm_name}/${vm_name}.vdi"
 
