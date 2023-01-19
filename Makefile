@@ -16,3 +16,6 @@ else
 	@echo "NEED TO SPECIFY NODE NUMBER"
 	@echo "make start node=1"
 endif
+
+drop:
+	./src/scripts/drop_cluster.sh
