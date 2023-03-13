@@ -19,3 +19,16 @@ endif
 
 drop:
 	./src/scripts/drop_cluster.sh
+
+
+minikube:
+	minikube start \
+		--driver=virtualbox \
+		--nodes=3 \
+		--disk-size=10g \
+		--cpus=2 \
+		--memory=4g \
+		--kubernetes-version=v1.25.1 \
+		--cni=calico \
+		--container-runtime=cri-o \
+		-p multivbox

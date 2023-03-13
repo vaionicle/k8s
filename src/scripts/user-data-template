@@ -25,6 +25,8 @@ autoinstall:
         - apt-transport-https
         - ca-certificates
         - curl
+        - gnupg
+        - lsb-release
         - virtualbox-guest-utils
 
     user-data:
@@ -38,6 +40,7 @@ autoinstall:
         - curtin in-target --target /target update-grub2
         - swapoff -a
         - sed -ie '/\/swap.img/s/^/#/g' /target/etc/fstab
+        - truncate -s 0 /target/swap.img
         - curl -vo /target/usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
         - |
             cat <<EOF |  tee /target/etc/modules-load.d/k8s.conf
