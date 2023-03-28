@@ -8,3 +8,5 @@ src/configs/meta-data
 src/configs/user-data
 
 .vscode
+
+*.network.txt

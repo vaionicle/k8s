@@ -72,10 +72,12 @@ For each new Service, on each node, kube-proxy configures iptables rules to capt
 - serviceaccounts = sa
 - services = svc
 - customresourcedefinitions = crd, crds
-- daemonsets = ds
+
 - deployments = deploy
+- daemonsets = ds
 - replicasets = rs
 - statefulsets = sts
+
 - horizontalpodautoscalers = hpa
 - cronjobs = cj
 - certificiaterequests = cr, crs
@@ -84,7 +86,6 @@ For each new Service, on each node, kube-proxy configures iptables rules to capt
 - ingresses = ing
 - networkpolicies = netpol
 - podsecuritypolicies = psp
-- replicasets = rs
 - scheduledscalers = ss
 - priorityclasses = pc
 - storageclasses = sc

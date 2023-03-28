@@ -46,12 +46,15 @@ for i in $(seq ${VM_COUNT}); do
 
 	# ##################################
 	# System Settings
+	cores=3
+	ram=$((4 * 1024))
+
 	VBoxManage modifyvm ${vm_name} \
 		--ioapic on \
 		--pae on \
 		--chipset piix3 \
-		--memory 2048 \
-		--cpus 2 \
+		--memory ${ram} \
+		--cpus ${cores} \
 		--cpuexecutioncap 100 \
 		--rtcuseutc on \
 		--nested-hw-virt on
@@ -98,7 +101,7 @@ for i in $(seq ${VM_COUNT}); do
 	[ "$(VBoxManage showvminfo ${vm_name} | grep 'Host path' | wc -l)" == 0 ] && \
 		VBoxManage sharedfolder add ${vm_name} \
 			--name="k8s" \
-			--hostpath="$(pwd)" \
+			--hostpath="$(pwd)/../../" \
 			--automount \
 			--auto-mount-point="/opt/k8s"
 done
