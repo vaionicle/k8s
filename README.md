@@ -23,7 +23,7 @@ Follow the [Download](https://www.virtualbox.org/wiki/Linux_Downloads) section
 **Each node** will have:
 
 - 10GB HDD
-- 1GB RAM
+- 8GB RAM
 - 2 CPU Core
 - 2 Network Cards
 - 16MB RAM for VMSVGA
@@ -57,3 +57,7 @@ make ubuntu 1..N
 - https://dustinspecker.com/posts/ubuntu-autoinstallation-virtualbox/
 - https://gist.github.com/bitsandbooks/6e73ec61a44d9e17e1c21b3b8a0a9d4c
 - https://manintheit.org/posts/automation/ubuntu-autoinstall/
+
+## Traingings for Free
+
+- https://www.cncf.io/certification/training/

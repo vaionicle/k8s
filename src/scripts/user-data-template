@@ -82,3 +82,7 @@ autoinstall:
 
             [Install]
             WantedBy=multi-user.target
+        - chmod 664 /target/etc/systemd/system/announce_ip.service
+
+        - curtin in-target --target /target systemctl daemon-reload
+        - curtin in-target --target /target systemctl enable announce_ip.service
