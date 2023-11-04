@@ -1,13 +1,15 @@
 cluster:
-	./src/scripts/create_cluster.sh
+	./src/scripts/1.create_cluster.sh
+
 
 ubuntu:
 ifdef node
-	./src/scripts/install_ubuntu.sh ${node}
+	./src/scripts/2.install_ubuntu.sh ${node}
 else
 	@echo "NEED TO SPECIFY NODE NUMBER"
 	@echo "make ubuntu node=1"
 endif
+
 
 start:
 ifdef node
@@ -17,9 +19,9 @@ else
 	@echo "make start node=1"
 endif
 
-drop:
-	./src/scripts/drop_cluster.sh
 
+drop:
+	./src/scripts/4.drop_cluster.sh
 
 minikube:
 	minikube start \

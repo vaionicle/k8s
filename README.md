@@ -1,6 +1,6 @@
 # k8s playground
 
-Creating a local k8s cluster to experiment with
+Creating a local K8S cluster to experiment with and help me pass CKA Exames
 
 ## Table of Contents
 
@@ -45,7 +45,7 @@ make cluster
 The bellow command will download if doesnt exists **ubuntu server 22.04** and will try to **install** it on specific node.
 
 ```bash
-make ubuntu 1..N
+make ubuntu node=1..N
 ```
 
 ## Useful links
