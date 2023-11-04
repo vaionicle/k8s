@@ -5,6 +5,8 @@ VM_LOCATION="/opt/VirtualBox"
 VM_NAT_NETWORK="k8s"
 VM_COUNT=4
 
+[ ! -d "${VM_LOCATION}" ] && echo "FOLDER ${VM_LOCATION} DOES NOT EXISTS, created" && mkdir -p ${VM_LOCATION} || echo "FOLDER ${VM_LOCATION} EXISTS"
+
 [ $(VBoxManage natnetwork list ${VM_NAT_NETWORK} | wc -l) == 3 ] && \
 	VBoxManage natnetwork add --netname ${VM_NAT_NETWORK} --network "10.0.2.0/24" --enable --dhcp on && \
 	VBoxManage natnetwork start --netname ${VM_NAT_NETWORK}
