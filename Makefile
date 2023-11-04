@@ -19,7 +19,6 @@ else
 	@echo "make start node=1"
 endif
 
-
 drop:
 	./src/scripts/4.drop_cluster.sh
 
@@ -34,3 +33,8 @@ minikube:
 		--cni=calico \
 		--container-runtime=cri-o \
 		-p multivbox
+
+vms.list:
+	VBoxManage list runningvms
+vm.info:
+	VBoxManage showvminfo k8s_node_${node}

@@ -1,9 +1,10 @@
 #!/bin/bash
 
-VM_GROUP="k8s"
-VM_LOCATION="/opt/VirtualBox"
-VM_NAT_NETWORK="k8s"
-VM_COUNT=4
+path=$(readlink -f "${BASH_SOURCE:-$0}")
+DIR_PATH=$(dirname $path)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+
+. ${ROOT_SCRIPT_PATH}/src/scripts/_configs.sh
 
 [ ! -d "${VM_LOCATION}" ] && echo "FOLDER ${VM_LOCATION} DOES NOT EXISTS, created" && mkdir -p ${VM_LOCATION} || echo "FOLDER ${VM_LOCATION} EXISTS"
 
@@ -43,7 +44,7 @@ for i in $(seq ${VM_COUNT}); do
 	# General Settings
 	VBoxManage modifyvm ${vm_name} \
 		--clipboard-mode bidirectional \
-		--draganddrop bidirectional\
+		--draganddrop bidirectional
 
 
 	# ##################################
@@ -71,7 +72,7 @@ for i in $(seq ${VM_COUNT}); do
 	# ##################################
 	# Display Settings
 	VBoxManage modifyvm ${vm_name} --vram 16 --graphicscontroller vmsvga
-
+	VBoxManage modifyvm ${vm_name} --vrde on
 
 	# ##################################
 	# Storage Settings
