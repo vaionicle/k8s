@@ -101,12 +101,16 @@ for i in $(seq ${VM_COUNT}); do
 
 	# ##################################
 	# Share Folder Settings
-	[ "$(VBoxManage showvminfo ${vm_name} | grep 'Host path' | wc -l)" == 0 ] && \
-		VBoxManage sharedfolder add ${vm_name} \
-			--name="k8s" \
-			--hostpath="$(pwd)/../../" \
-			--automount \
-			--auto-mount-point="/opt/k8s"
+	if [ "$(VBoxManage showvminfo ${vm_name} | grep 'Host path' | wc -l)" != 0 ]; then
+		VBoxManage sharedfolder remove ${vm_name} \
+			--name="k8s"
+	fi
+
+	VBoxManage sharedfolder add ${vm_name} \
+		--name="k8s" \
+		--hostpath="${ROOT_SCRIPT_PATH}" \
+		--automount \
+		--auto-mount-point="/opt/k8s"
 done
 
 tree ${VM_LOCATION}/${VM_GROUP}
