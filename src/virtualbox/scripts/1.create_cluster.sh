@@ -2,9 +2,9 @@
 
 path=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname $path)
-ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../../" && pwd)
 
-. ${ROOT_SCRIPT_PATH}/src/scripts/_configs.sh
+. ${ROOT_SCRIPT_PATH}/src/virtualbox/scripts/_configs.sh
 
 [ ! -d "${VM_LOCATION}" ] && echo "FOLDER ${VM_LOCATION} DOES NOT EXISTS, created" && mkdir -p ${VM_LOCATION} || echo "FOLDER ${VM_LOCATION} EXISTS"
 

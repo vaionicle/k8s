@@ -2,23 +2,23 @@
 
 path=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname $path)
-ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../../" && pwd)
 
 
 NODE=${1:-""}
 if [ "${NODE}" == "" ]; then
     echo "NODE ID is not set"
-    echo "$ROOT_SCRIPT_PATH/src/scripts/install_ubuntu.sh 1..N"
+    echo "$ROOT_SCRIPT_PATH/src/virtualbox/scripts/install_ubuntu.sh 1..N"
     return
 fi
 
-. ${ROOT_SCRIPT_PATH}/src/scripts/_configs.sh
+. ${ROOT_SCRIPT_PATH}/src/virtualbox/scripts/_configs.sh
 
 [ ! -f "$ROOT_SCRIPT_PATH/$ISO_FILE" ] && wget https://releases.ubuntu.com/${ISO_VERSION}/${ISO_FILE} -O "$ROOT_SCRIPT_PATH/$ISO_FILE"
 [ -f "$ROOT_SCRIPT_PATH/seed_$NODE.iso" ] && rm -rf "seed_$NODE.iso"
 [ -f "$CONFIGS_PATH/user-data" ] && rm -rf $CONFIGS_PATH/user-data
 
-cp $ROOT_SCRIPT_PATH/src/scripts/user-data-template $CONFIGS_PATH/user-data
+cp $ROOT_SCRIPT_PATH/src/virtualbox/scripts/user-data-template $CONFIGS_PATH/user-data
 
 # GENERATE_PASS="$(openssl passwd -6 -stdin <<< ${password})"
 # echo $GENERATE_PASS

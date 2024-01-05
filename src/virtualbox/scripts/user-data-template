@@ -73,7 +73,7 @@ autoinstall:
             After=network.target
 
             [Service]
-            ExecStart=/opt/k8s/src/scripts/announce_ip.sh
+            ExecStart=/opt/k8s/src/virtualbox/scripts/announce_ip.sh
             Type=oneshot
             RemainAfterExit=yes
             User=user

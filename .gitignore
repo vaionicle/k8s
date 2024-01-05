@@ -4,8 +4,8 @@
 kubectl
 kubectl.sha256
 
-src/configs/meta-data
-src/configs/user-data
+src/virtualbox/configs/meta-data
+src/virtualbox/configs/user-data
 
 .vscode
 

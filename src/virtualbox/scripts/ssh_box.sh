@@ -2,16 +2,16 @@
 
 path=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname $path)
-ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../../" && pwd)
 
 NODE=${1:-""}
 if [ "${NODE}" == "" ]; then
     echo "NODE is not set"
-    echo "$ROOT_SCRIPT_PATH/src/scripts/ssh_box.sh 1..N"
+    echo "$ROOT_SCRIPT_PATH/src/virtualbox/scripts/ssh_box.sh 1..N"
     return
 fi
 
-. ${ROOT_SCRIPT_PATH}/src/scripts/_configs.sh
+. ${ROOT_SCRIPT_PATH}/src/virtualbox/scripts/_configs.sh
 
 BOX_IP=$(cat ${IP_FILE} | tail -n 1 | awk -F "/" '{print $1}')
 
