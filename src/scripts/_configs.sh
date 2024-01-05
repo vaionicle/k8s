@@ -10,11 +10,13 @@ VM_NAT_NETWORK="k8s"
 VM_COUNT=4
 
 VM_NAME="k8s_node_${NODE}"
+HOSTNAME_NAME="k8snode${NODE}"
 
 ISO_VERSION="22.04.1"
 ISO_FILE="ubuntu-${ISO_VERSION}-live-server-amd64.iso"
 
-CONFIGS_PATH=$ROOT_SCRIPT_PATH/src/configs
+CONFIGS_PATH="$ROOT_SCRIPT_PATH/src/configs"
+IP_FILE="${ROOT_SCRIPT_PATH}/src/${HOSTNAME_NAME}.network.txt"
 
 username="user"
 password="ubuntu"

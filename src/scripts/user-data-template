@@ -34,6 +34,7 @@ autoinstall:
         - virtualbox-guest-utils
         - software-properties-common
         - uidmap
+        - bridge-utils
 
     user-data:
         disable_root: false
@@ -48,7 +49,6 @@ autoinstall:
         - sed -ie '/\/swap.img/s/^/#/g' /target/etc/fstab
         - truncate -s 0 /target/swap.img
 
-        - curl -vo /target/usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
         - |
             cat <<EOF |  tee /target/etc/modules-load.d/k8s.conf
             br_netfilter
@@ -61,7 +61,6 @@ autoinstall:
             net.ipv4.ip_forward                 = 1
             EOF
         - sysctl --system
-        - echo 'deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main' | tee /target/etc/apt/sources.list.d/kubernetes.list
 
         - echo 'vboxsf' | tee -a /target/etc/modules
         - echo 'k8s /opt/k8s vboxsf defaults,uid=1000,gid=1000,umask=022 0 0' | tee -a /target/etc/fstab
