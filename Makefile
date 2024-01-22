@@ -37,3 +37,24 @@ vms.list:
 	VBoxManage list runningvms
 vm.info:
 	VBoxManage showvminfo k8s_node_${node}
+
+# #######################################
+# AZURE NAMESPACE
+az.install:
+	pip3 install azure-cli
+
+az.show_sp:
+	az ad sp list | jq '.[] | {"appDisplayName": .appDisplayName, "appID": .appId}'
+
+az.accounts:
+	az account list -o json | jq
+
+az.clean_cache:
+	az cache purge
+
+az.allow_my_ip:
+	az network nsg rule update \
+		--nsg-name backend.nsg \
+		-g FetchLegalTerraform \
+		-n backend.nsg.22 \
+		--source-address-prefixes "$(MY_IP)" | jq
