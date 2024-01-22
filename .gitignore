@@ -6,6 +6,8 @@ kubectl.sha256
 
 src/virtualbox/configs/meta-data
 src/virtualbox/configs/user-data
+src/azure/*.json
+src/azure/_az.sh
 
 .vscode
 
