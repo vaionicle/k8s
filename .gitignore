@@ -1,13 +1,15 @@
 *.iso
 *.img
 
+**/.terraform
+
 kubectl
 kubectl.sha256
 
 src/virtualbox/configs/meta-data
 src/virtualbox/configs/user-data
 src/azure/*.json
-src/azure/_az.sh
+**/_az.sh
 
 .vscode
 
@@ -15,3 +17,6 @@ src/azure/_az.sh
 *.tar.xz
 
 LFS258
+
+**/.ssh
+**/.azure
