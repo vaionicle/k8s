@@ -1,0 +1,17 @@
+Host ${proxy.name}
+   User ${username}
+   IdentityFile ~/.ssh/${proxy.name}.id_rsa
+   Hostname ${proxy.ip}
+   Port ${proxy.port}
+
+%{ for key, server in nodes ~}
+Host ${server.name}
+   Hostname ${server.ip}
+   Port ${server.port}
+   User ${username}
+   IdentityFile ~/.ssh/${server.name}.id_rsa
+   ProxyJump ${proxy.name}
+%{ endfor ~}
+
+Host *
+   Compression yes

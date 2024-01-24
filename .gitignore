@@ -2,6 +2,9 @@
 *.img
 
 **/.terraform
+**/.terraform.*
+**/terraform.tfstate
+**/terraform.tfstate.backup
 
 kubectl
 kubectl.sha256

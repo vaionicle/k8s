@@ -1,0 +1,51 @@
+FROM --platform=linux/amd64 alpine:3.17
+
+# INSTALL SYSTEM PACKAGES
+RUN apk update && \
+    apk add --no-cache \
+        nano wget git curl vim unzip gnupg jq make bash-completion ca-certificates gcc \
+        python3 python3-dev py3-pip \
+        musl-dev libffi-dev openssl-dev cargo \
+        openssh-client
+
+# INSTALL TERRAFORM
+ENV TERRAFORM_VERSION="1.7.0"
+ENV TERRAFORM_FILE="terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
+RUN wget -q "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/${TERRAFORM_FILE}" && \
+    unzip ${TERRAFORM_FILE} && \
+    chmod +x terraform && \
+    mv terraform /usr/bin && \
+    rm ${TERRAFORM_FILE}
+
+# INSTALL AZURECLI AND ANSIBLE
+RUN pip3 install --upgrade pip
+RUN pip3 install ansible
+RUN pip3 install azure-cli
+RUN pip3 install pywinrm
+
+ARG UID=1000
+ARG GID=1000
+ENV USER_NAME="user"
+ENV GROUP_NAME="ugroup"
+
+RUN addgroup "${GROUP_NAME}"
+RUN adduser \
+    --disabled-password \
+    --shell "/bin/bash" \
+    --home "/home/${USER_NAME}" \
+    --ingroup ${GROUP_NAME} \
+    --uid ${UID} \
+    ${USER_NAME}
+    # -g "${USER_NAME}" \
+
+
+ENV PROJECT="/opt/project"
+RUN mkdir ${PROJECT}
+
+WORKDIR ${PROJECT}
+
+LABEL com.k8s.cka.image="alpine"
+LABEL version="0.1"
+LABEL maintainer="Vasilis Tsaknis"
+
+USER ${USER_NAME}
