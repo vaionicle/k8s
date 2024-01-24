@@ -4,14 +4,19 @@
 
 path=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname $path)
-ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../../" && pwd)
 
-. ${ROOT_SCRIPT_PATH}/src/azure/_config.sh
+. ${ROOT_SCRIPT_PATH}/src/azure/az_cli/_config.sh
+. ${ROOT_SCRIPT_PATH}/src/azure/az_cli/01.login.sh
 
-# CREATE RESOURCE GROUP
-echo "--- CREATE RESOURCE GROUP"
-az group create --name ${RG} --location ${LOCATION} --tags ${TAGS}
-
+VM_IMAGE="Ubuntu_Server_22.04_LTS_-_Gen2"
+VM_SIZE="Standard_B2ms"
+# "imageReference": {
+#     "publisher": "canonical",
+#     "offer": "0001-com-ubuntu-server-jammy",
+#     "sku": "22_04-lts-gen2",
+#     "version": "latest"
+# }
 
 az vm create \
     -n kube-master-1 \
@@ -20,7 +25,7 @@ az vm create \
     --vnet-name kubeadm --subnet kube \
     --admin-username nilfranadmin \
     --ssh-key-value @~/.ssh/id_rsa.pub \
-    --size Standard_D2ds_v4 \
+    --size "${VM_SIZE}" \
     --nsg kubeadm \
     --public-ip-sku Standard --no-wait
 
@@ -31,7 +36,7 @@ az vm create \
     --vnet-name kubeadm --subnet kube \
     --admin-username nilfranadmin \
     --ssh-key-value @~/.ssh/id_rsa.pub \
-    --size Standard_D2ds_v4 \
+    --size "${VM_SIZE}" \
     --nsg kubeadm \
     --public-ip-sku Standard --no-wait
 
@@ -42,7 +47,7 @@ az vm create \
     --vnet-name kubeadm --subnet kube \
     --admin-username nilfranadmin \
     --ssh-key-value @~/.ssh/id_rsa.pub \
-    --size Standard_D2ds_v4 \
+    --size "${VM_SIZE}" \
     --nsg kubeadm \
     --public-ip-sku Standard --no-wait
 
@@ -53,7 +58,7 @@ az vm create \
     --vnet-name kubeadm --subnet kube \
     --admin-username nilfranadmin \
     --ssh-key-value @~/.ssh/id_rsa.pub \
-    --size Standard_D2ds_v4 \
+    --size "${VM_SIZE}" \
     --nsg kubeadm \
     --public-ip-sku Standard
 

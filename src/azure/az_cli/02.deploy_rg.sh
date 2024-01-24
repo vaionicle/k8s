@@ -2,9 +2,9 @@
 
 path=$(readlink -f "${BASH_SOURCE:-$0}")
 DIR_PATH=$(dirname $path)
-ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../" && pwd)
+ROOT_SCRIPT_PATH=$(cd "$DIR_PATH/../../../" && pwd)
 
-. ${ROOT_SCRIPT_PATH}/src/azure/_config.sh
+. ${ROOT_SCRIPT_PATH}/src/azure/az_cli/_config.sh
 
 # CREATE RESOURCE GROUP
 echo "--- CREATE RESOURCE GROUP"
