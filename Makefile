@@ -1,7 +1,48 @@
-cluster:
+IMAGE_NAME := cka-k8s:latest
+USER_ID    := $(shell id -u ${USER})
+GROUP_ID   := $(shell id -g ${USER})
+MY_IP      := $(shell curl -s ifconfig.co)
+
+USER            := ${HOME}
+PROJECT_FOLDER  := /opt/project
+DOCKER_RUN      := docker run -it --rm \
+	-v ${PWD}/user/.azure:/home/user/.azure/ \
+	-v ${PWD}/user/.ssh:/home/user/.ssh/ \
+	-v ${PWD}/:${PROJECT_FOLDER} \
+	-u "${USER_ID}:${GROUP_ID}" \
+	-w "${PROJECT_FOLDER}" \
+	${IMAGE_NAME}
+
+init.folders:
+	mkdir -p ${PWD}/user/.azure
+	mkdir -p ${PWD}/user/.ssh
+
+build:
+	docker build \
+		--build-arg UID="${USER_ID}" \
+		--build-arg GID="${GROUP_ID}" \
+		-f ${PWD}/docker/Dockerfile.alpine \
+		-t ${IMAGE_NAME} \
+		.
+
+ssh: init.folders
+	${DOCKER_RUN} /bin/bash
+
+ssh.cp: init.folders
+	${DOCKER_RUN} ssh cp
+
+ssh.node1: init.folders
+	${DOCKER_RUN} ssh node1
+
+ssh.node2: init.folders
+	${DOCKER_RUN} ssh node2
+
+# ##################################
+# Virtual Box
+vb.cluster:
 	./src/virtualbox/scripts/1.create_cluster.sh
 
-ubuntu:
+vb.install_ubuntu:
 ifdef node
 	./src/virtualbox/scripts/2.install_ubuntu.sh ${node}
 else
@@ -10,7 +51,7 @@ else
 endif
 
 
-start:
+vb.start:
 ifdef node
 	VBoxManage startvm k8s_node_${node} --type=headless
 else
@@ -18,9 +59,16 @@ else
 	@echo "make start node=1"
 endif
 
-drop:
+vb.drop:
 	./src/virtualbox/scripts/4.drop_cluster.sh
 
+vb.vms.list:
+	VBoxManage list runningvms
+vb.vm.info:
+	VBoxManage showvminfo k8s_node_${node}
+
+# ##################################
+# Minikube
 minikube:
 	minikube start \
 		--driver=virtualbox \
@@ -33,13 +81,17 @@ minikube:
 		--container-runtime=cri-o \
 		-p multivbox
 
-vms.list:
-	VBoxManage list runningvms
-vm.info:
-	VBoxManage showvminfo k8s_node_${node}
 
 # #######################################
 # AZURE NAMESPACE
+
+az.docker:
+	docker run -it --rm \
+		-v ${PWD}:/opt/project \
+		-v ${HOME}/.ssh:/root/.ssh \
+		-v ${HOME}/.azure:/root/.azure \
+		mcr.microsoft.com/azure-cli:latest
+
 az.install:
 	pip3 install azure-cli
 
@@ -55,6 +107,6 @@ az.clean_cache:
 az.allow_my_ip:
 	az network nsg rule update \
 		--nsg-name backend.nsg \
-		-g FetchLegalTerraform \
+		-g k8sCkaTerraform \
 		-n backend.nsg.22 \
 		--source-address-prefixes "$(MY_IP)" | jq
