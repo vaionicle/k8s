@@ -21,3 +21,9 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
+
+sudo crictl config \
+    --set runtime-endpoint="unix:///run/containerd/containerd.sock" \
+    --set image-endpoint="unix:///run/containerd/containerd.sock"
+
+sudo crictl ps
