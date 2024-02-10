@@ -6,8 +6,8 @@ MY_IP      := $(shell curl -s ifconfig.co)
 USER            := ${HOME}
 PROJECT_FOLDER  := /opt/project
 DOCKER_RUN      := docker run -it --rm \
-	-v ${PWD}/user/.azure:/home/user/.azure/ \
-	-v ${PWD}/user/.ssh:/home/user/.ssh/ \
+	-v ${PWD}/user/azure:/home/user/.azure/ \
+	-v ${PWD}/user/ssh:/home/user/.ssh/ \
 	-v ${PWD}/:${PROJECT_FOLDER} \
 	-u "${USER_ID}:${GROUP_ID}" \
 	-w "${PROJECT_FOLDER}" \
@@ -31,11 +31,9 @@ ssh: init.folders
 ssh.cp: init.folders
 	${DOCKER_RUN} ssh cp
 
-ssh.node1: init.folders
-	${DOCKER_RUN} ssh node1
-
-ssh.node2: init.folders
-	${DOCKER_RUN} ssh node2
+NODE := 1
+ssh.node: init.folders
+	${DOCKER_RUN} ssh node${NODE}
 
 # ##################################
 # Virtual Box
@@ -88,8 +86,8 @@ minikube:
 az.docker:
 	docker run -it --rm \
 		-v ${PWD}:/opt/project \
-		-v ${HOME}/.ssh:/root/.ssh \
-		-v ${HOME}/.azure:/root/.azure \
+		-v ${PWD}/user/azure:/root/.azure \
+		-v ${PWD}/user/ssh:/root/.ssh \
 		mcr.microsoft.com/azure-cli:latest
 
 az.install:
