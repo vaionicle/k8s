@@ -14,8 +14,8 @@ DOCKER_RUN      := docker run -it --rm \
 	${IMAGE_NAME}
 
 init.folders:
-	mkdir -p ${PWD}/user/.azure
-	mkdir -p ${PWD}/user/.ssh
+	mkdir -p ${PWD}/user/azure
+	mkdir -p ${PWD}/user/ssh
 
 build:
 	docker build \

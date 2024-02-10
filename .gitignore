@@ -22,7 +22,7 @@ src/azure/*.json
 
 LFS258
 
-**/ssh/*
-!**/ssh/.keep
-**/azure/*
-!**/azure/.keep
+user/ssh/*
+!user/ssh/.keep
+user/azure/*
+!user/azure/.keep
