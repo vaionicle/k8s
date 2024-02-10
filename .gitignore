@@ -2,7 +2,7 @@
 *.img
 
 **/.terraform
-**/.terraform.*
+**/.terraform.lock.*
 **/terraform.tfstate
 **/terraform.tfstate.backup
 
@@ -15,6 +15,7 @@ src/azure/*.json
 **/_az.sh
 
 .vscode
+.DS_Store
 
 *.network.txt
 *.tar.xz
