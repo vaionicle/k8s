@@ -38,6 +38,13 @@ variable "my_public_ip" {
   description = "My Public Ip Address for SSH rule"
 }
 
+variable "email" {
+  type        = string
+  default     = ""
+  description = "email for notifications"
+}
+
+
 # StorageTypes 
 #   Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, PremiumV2_LRS
 
@@ -45,5 +52,6 @@ locals {
   tags = {
     project     = var.rg_name_prefix
     environment = "Production"
+    application = "terraform"
   }
 }

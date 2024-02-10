@@ -10,6 +10,10 @@ export LOCATION="eastus" #uksouth,ukwest,eastus
 export RG="k8s"
 export TAGS="project=${RG}"
 
+export RG_TF_STATE="tfstate"
+export STORAGE_ACCOUNT_NAME="tfstate${RANDOM}"
+export CONTAINER_NAME="tfstate"
+
 export JSON_FILE="sp${RG}.json"
 export AZURE_ACCOUNT="AzureAccount.json"
 
@@ -23,7 +27,9 @@ export A_USER="vaionicle"
 export IMAGE_ID="Canonical:0001-com-ubuntu-server-focal:20_04-lts-gen2:latest"
 
 export INSTANCE_SIZE="Standard_B1s"
-export INSTANCE_DISK_SKU="Standard_LRS" # Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, PremiumV2_LRS
+
+# Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, PremiumV2_LRS
+export INSTANCE_DISK_SKU="Standard_LRS"
 
 export PRIVATE_NET="k8s.private"
 export PUBLIC_NET="k8s.public"

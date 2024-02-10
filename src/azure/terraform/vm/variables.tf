@@ -11,7 +11,7 @@ variable "resource_group_location" {
 
 variable "public_vnet_id" {
   type    = string
-  default = ""
+  default = null
 }
 
 variable "private_vnet_id" {
@@ -76,4 +76,10 @@ variable "open_wide_ports" {
     { port = 80, address = "*" },
     { port = 443, address = "*" },
   ]
+}
+
+
+variable "notification_email" {
+  type    = string
+  default = ""
 }

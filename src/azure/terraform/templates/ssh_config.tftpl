@@ -1,15 +1,15 @@
-Host ${proxy.name}
+Host ${proxy.name} ${namespace}-${proxy.name}
    User ${username}
-   IdentityFile ~/.ssh/${proxy.name}.id_rsa
+   IdentityFile ~/.ssh/${namespace}-${proxy.name}.id_rsa
    Hostname ${proxy.ip}
    Port ${proxy.port}
 
 %{ for key, server in nodes ~}
-Host ${server.name}
+Host ${server.name} ${namespace}-${server.name}
    Hostname ${server.ip}
    Port ${server.port}
    User ${username}
-   IdentityFile ~/.ssh/${server.name}.id_rsa
+   IdentityFile ~/.ssh/${namespace}-${server.name}.id_rsa
    ProxyJump ${proxy.name}
 %{ endfor ~}
 

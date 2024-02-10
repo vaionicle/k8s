@@ -22,6 +22,8 @@ module "vm_cp" {
     { port = 22, address = "${var.my_public_ip}" },
   ]
 
+  notification_email = var.email
+
   depends_on = [azurerm_resource_group.rg]
 }
 

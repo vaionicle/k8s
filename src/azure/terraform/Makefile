@@ -28,23 +28,16 @@ destroy:
 
 tf: format init validate apply
 
-# generate_keys.cp:
-# 	cd ${TERRAFORM} && \
-# 	( terraform output -json vm_cp | jq -r .tls_private_key > ~/.ssh/k8s_cp.id_rsa ) && \
-# 	( terraform output -json vm_cp | jq -r .tls_public_key > ~/.ssh/k8s_cp.id_rsa.pub ) && \
-# 	chmod 600 ~/.ssh/k8s_cp.id_rsa && \
-# 	chmod 600 ~/.ssh/k8s_cp.id_rsa.pub
-
-# generate_keys.node1:
-# 	cd ${TERRAFORM} && \
-# 	( terraform output -json vm_node_1 | jq -r .tls_private_key > ~/.ssh/node_1.id_rsa ) && \
-# 	( terraform output -json vm_node_1 | jq -r .tls_public_key > ~/.ssh/node_1.id_rsa.pub ) && \
-# 	chmod 600 ~/.ssh/node_1.id_rsa && \
-# 	chmod 600 ~/.ssh/node_1.id_rsa.pub
-
-# generate_keys.node2:
-# 	cd ${TERRAFORM} && \
-# 	( terraform output -json vm_node_2 | jq -r .tls_private_key > ~/.ssh/node_2.id_rsa ) && \
-# 	( terraform output -json vm_node_2 | jq -r .tls_public_key > ~/.ssh/node_2.id_rsa.pub ) && \
-# 	chmod 600 ~/.ssh/node_2.id_rsa && \
-# 	chmod 600 ~/.ssh/node_2.id_rsa.pub
+upload:
+	@echo "cp"
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/installations/ cp:/home/azureuser/scripts/
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/k8s/ cp:/home/azureuser/scripts/
+	@echo "node1"
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/installations/ node1:/home/azureuser/scripts/
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/k8s/ node1:/home/azureuser/scripts/
+	@echo "node2"
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/installations/ node2:/home/azureuser/scripts/
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/k8s/ node2:/home/azureuser/scripts/
+	@echo "node3"
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/installations/ node3:/home/azureuser/scripts/
+	rsync -avz ${PROJECT_FOLDER}/src/virtualbox/scripts/k8s/ node3:/home/azureuser/scripts/
