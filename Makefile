@@ -67,10 +67,13 @@ vb.vm.info:
 
 # ##################################
 # Minikube
-minikube:
+
+# (docker|virtualbox)
+MINIKUBE_DRIVER := virtualbox
+minikube.start:
 	minikube start \
-		--driver=virtualbox \
-		--nodes=3 \
+		--driver=${MINIKUBE_DRIVER} \
+		--nodes=2 \
 		--disk-size=10g \
 		--cpus=2 \
 		--memory=4g \
